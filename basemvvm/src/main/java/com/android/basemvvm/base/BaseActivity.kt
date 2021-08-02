@@ -1,16 +1,15 @@
 package com.android.basemvvm.base
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProvider
 import java.lang.reflect.ParameterizedType
 
-abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity() {
+abstract class BaseActivity<M : BaseModel, VM : BaseViewModel<M>> : AppCompatActivity() {
 
-    protected var viewModel: T? = null
+    protected var viewModel: VM? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,12 +21,22 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity() {
         viewModel = ViewModelProvider(
             this, ViewModelProvider.AndroidViewModelFactory
                 .getInstance(application)
-        ).get((type as ParameterizedType).actualTypeArguments[1] as Class<T>)
+        ).get((type as ParameterizedType).actualTypeArguments[1] as Class<VM>)
         val viewDataBinding = DataBindingUtil.setContentView<ViewDataBinding>(this, getLayoutId())
         viewDataBinding.lifecycleOwner = this
-        viewDataBinding.setVariable(variableId(), viewModel)
+        viewDataBinding.setVariable(viewModel!!.variableId(), viewModel)
+
+        lifecycle.addObserver(viewModel!!)
+        viewModel?.attach()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel?.let {
+            lifecycle.removeObserver(it)
+            it.unAttach()
+        }
     }
 
     abstract fun getLayoutId(): Int
-    abstract fun variableId(): Int
 }
