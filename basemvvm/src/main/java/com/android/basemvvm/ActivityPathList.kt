@@ -1,12 +1,14 @@
 package com.android.basemvvm
 
+import com.android.basemvvm.dome.DomeActivity
+
 object ActivityPathList {
 
     val activitys = hashMapOf<String, Any>()
 
-    const val DomeActivity = "/main/domeActivity"
+    const val sDomeActivity = "/main/domeActivity"
 
     init {
-        activitys[DomeActivity] = DomeActivity::class.java
+        activitys[sDomeActivity] = DomeActivity::class.java
     }
 }

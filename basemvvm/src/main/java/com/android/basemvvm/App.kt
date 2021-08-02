@@ -7,6 +7,8 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        ARouter.openLog()
+        ARouter.openDebug()
         ARouter.init(this)
     }
 }
