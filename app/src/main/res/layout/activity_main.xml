@@ -20,7 +20,13 @@
             android:id="@+id/cv_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:bgColor="@{data.color}" />
+            app:bgColor="@={data.color}" />
+
+        <Button
+            android:id="@+id/bn_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="改变方块颜色"/>
 
         <TextView
             android:id="@+id/tv_text"

@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
             mainViewModel.onChangeText()
         }
 
-        cv_color.setOnClickListener {
+        bn_color.setOnClickListener {
             mainViewModel.onChangeColor()
         }
     }
