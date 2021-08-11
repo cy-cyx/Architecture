@@ -6,7 +6,7 @@ import com.android.basemvvm.base.BaseActivity
 import com.example.basemvvm.R
 
 @Route(path = ActivityPathList.sDomeActivity)
-class DomeActivity : BaseActivity<DomeModel, DomeViewModel>() {
+class DomeActivity : BaseActivity<DomeRepository, DomeViewModel>() {
 
     override fun getLayoutId(): Int = R.layout.activity_dome
 }

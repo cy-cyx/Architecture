@@ -7,7 +7,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProvider
 import java.lang.reflect.ParameterizedType
 
-abstract class BaseActivity<M : BaseModel, VM : BaseViewModel<M>> : AppCompatActivity() {
+abstract class BaseActivity<M : Repository, VM : BaseViewModel<M>> : AppCompatActivity() {
 
     protected var viewModel: VM? = null
 
@@ -27,14 +27,12 @@ abstract class BaseActivity<M : BaseModel, VM : BaseViewModel<M>> : AppCompatAct
         viewDataBinding.setVariable(viewModel!!.variableId(), viewModel)
 
         lifecycle.addObserver(viewModel!!)
-        viewModel?.attach()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         viewModel?.let {
             lifecycle.removeObserver(it)
-            it.unAttach()
         }
     }
 

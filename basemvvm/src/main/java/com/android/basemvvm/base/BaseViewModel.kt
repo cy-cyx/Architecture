@@ -2,19 +2,22 @@ package com.android.basemvvm.base
 
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
+import kotlin.coroutines.CoroutineContext
 
-abstract class BaseViewModel<M : BaseModel> : ViewModel(), LifecycleObserver {
+abstract class BaseViewModel<M : Repository> : ViewModel(), LifecycleObserver, CoroutineScope {
 
-    var model: BaseModel? = null
+    override val coroutineContext: CoroutineContext
+        get() = Job() + Dispatchers.Main
 
-    fun attach() {
-        model = createModel()
-    }
+    var repository: M? = null
 
-    fun unAttach() {
-        model?.cancel()
-        model = null
+    override fun onCleared() {
+        super.onCleared()
+        cancel()
     }
 
     abstract fun variableId(): Int

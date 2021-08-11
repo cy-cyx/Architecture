@@ -5,12 +5,14 @@ import android.widget.Toast
 import androidx.databinding.library.baseAdapters.BR
 import com.android.basemvvm.base.BaseViewModel
 import com.example.basemvvm.R
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
-class DomeViewModel : BaseViewModel<DomeModel>() {
+class DomeViewModel : BaseViewModel<DomeRepository>() {
 
     override fun variableId(): Int = BR.viewModel
 
-    override fun createModel(): DomeModel = DomeModel()
+    override fun createModel(): DomeRepository = DomeRepository()
 
     // 输入的文本
     var inputText: String = ""
@@ -19,7 +21,11 @@ class DomeViewModel : BaseViewModel<DomeModel>() {
     var onClickListen = View.OnClickListener { v ->
         when (v?.id) {
             R.id.bu_query -> {
-                Toast.makeText(v.context,"${inputText}",Toast.LENGTH_SHORT).show()
+                launch {
+                    repository?.search()?.collect {
+                        Toast.makeText(v.context, it, Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
     }
