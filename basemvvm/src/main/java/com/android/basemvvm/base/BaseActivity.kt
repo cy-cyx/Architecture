@@ -1,18 +1,24 @@
 package com.android.basemvvm.base
 
+import android.app.Dialog
+import android.app.ProgressDialog
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import java.lang.reflect.ParameterizedType
 
-abstract class BaseActivity<M : Repository, VM : BaseViewModel<M>> : AppCompatActivity() {
+abstract class BaseActivity<M : BaseRepository, VM : BaseViewModel<M>> : AppCompatActivity() {
 
     protected var viewModel: VM? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        loadingDialog = ProgressDialog(this)
+
         initViewModel()
     }
 
@@ -26,7 +32,19 @@ abstract class BaseActivity<M : Repository, VM : BaseViewModel<M>> : AppCompatAc
         viewDataBinding.lifecycleOwner = this
         viewDataBinding.setVariable(viewModel!!.variableId(), viewModel)
 
+        initViewModelBase()
+    }
+
+    private fun initViewModelBase() {
         lifecycle.addObserver(viewModel!!)
+
+        viewModel?.showLoading?.observe(this, Observer<Boolean> {
+            if (it) {
+                loadingDialog.show()
+            } else {
+                loadingDialog.dismiss()
+            }
+        })
     }
 
     override fun onDestroy() {
@@ -37,4 +55,8 @@ abstract class BaseActivity<M : Repository, VM : BaseViewModel<M>> : AppCompatAc
     }
 
     abstract fun getLayoutId(): Int
+
+    // 通用的部分
+    private lateinit var loadingDialog : Dialog
+
 }
