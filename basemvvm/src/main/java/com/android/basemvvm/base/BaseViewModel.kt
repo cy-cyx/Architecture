@@ -17,7 +17,7 @@ abstract class BaseViewModel<M : BaseRepository> : ViewModel(), LifecycleObserve
     var repository: M? = null
 
     init {
-        repository = createModel()
+        repository = createRepository()
     }
 
     override fun onCleared() {
@@ -27,7 +27,7 @@ abstract class BaseViewModel<M : BaseRepository> : ViewModel(), LifecycleObserve
 
     abstract fun variableId(): Int
 
-    abstract fun createModel(): M
+    abstract fun createRepository(): M
 
     // 通用控件
     val showLoading = MutableLiveData<Boolean>()

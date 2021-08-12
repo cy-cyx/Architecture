@@ -1,3 +1,4 @@
-include ':app'
 rootProject.name='Architecture'
+include ':app'
+include ':app1'
 include ':basemvvm'
