@@ -1,6 +1,6 @@
 package com.android.app1.dome
 
-import com.android.basemvvm.base.BaseRepository
+import com.android.basemvvm.base.mvvm.BaseRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow

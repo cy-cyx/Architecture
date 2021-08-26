@@ -1,4 +1,4 @@
-package com.android.basemvvm.base
+package com.android.basemvvm.base.mvvm
 
 
 /**

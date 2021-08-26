@@ -12,6 +12,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun click(view: View) {
-        ARouter.getInstance().build(ActivityPathList.sDomeActivity).navigation(this)
+//        ARouter.getInstance().build(ActivityPathList.sDomeActivity).navigation(this)
+        ARouter.getInstance().build(ActivityPathList.sFragmentActivity).navigation(this)
     }
 }

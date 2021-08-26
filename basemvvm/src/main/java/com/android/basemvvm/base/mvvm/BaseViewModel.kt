@@ -1,4 +1,4 @@
-package com.android.basemvvm.base
+package com.android.basemvvm.base.mvvm
 
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
