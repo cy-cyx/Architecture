@@ -24,9 +24,11 @@ abstract class BaseMVVMActivity<VM : BaseViewModel> : BaseActivity() {
         ).get((type as ParameterizedType).actualTypeArguments[0] as Class<VM>)
         (viewModel as? BaseMVVMViewModel<*,*>)?.setView(this)
 
-        val viewDataBinding = DataBindingUtil.setContentView<ViewDataBinding>(this, getLayoutId())
-        viewDataBinding.lifecycleOwner = this
-        viewDataBinding.setVariable(viewModel!!.variableId(), viewModel)
+        if (useDataBinding()){
+            val viewDataBinding = DataBindingUtil.setContentView<ViewDataBinding>(this, getLayoutId())
+            viewDataBinding.lifecycleOwner = this
+            viewDataBinding.setVariable(viewModel!!.variableId(), viewModel)
+        }
 
         initViewModelBase()
     }
@@ -41,6 +43,10 @@ abstract class BaseMVVMActivity<VM : BaseViewModel> : BaseActivity() {
                 loadingDialog.dismiss()
             }
         })
+    }
+
+    fun useDataBinding():Boolean{
+        return true
     }
 
     override fun onDestroy() {

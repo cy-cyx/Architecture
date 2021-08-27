@@ -37,14 +37,20 @@ abstract class BaseMVVMFragment<VM : BaseViewModel> : BaseFragment() {
         ).get((type as ParameterizedType).actualTypeArguments[0] as Class<VM>)
         (viewModel as? BaseMVVMViewModel<*, *>)?.setView(this)
 
-        val viewDataBinding =
-            DataBindingUtil.inflate<ViewDataBinding>(inflater, getLayoutId(), null, false)
-        viewDataBinding.lifecycleOwner = this
-        viewDataBinding.setVariable(viewModel!!.variableId(), viewModel)
+        val boot =
+            if (useDataBinding()) {
+                val viewDataBinding =
+                    DataBindingUtil.inflate<ViewDataBinding>(inflater, getLayoutId(), null, false)
+                viewDataBinding.lifecycleOwner = this
+                viewDataBinding.setVariable(viewModel!!.variableId(), viewModel)
+                viewDataBinding.root
+            } else {
+                inflater.inflate(getLayoutId(), null, false)
+            }
 
         initViewModelBase()
 
-        return viewDataBinding.root
+        return boot
     }
 
     private fun initViewModelBase() {
@@ -57,6 +63,10 @@ abstract class BaseMVVMFragment<VM : BaseViewModel> : BaseFragment() {
                 loadingDialog.dismiss()
             }
         })
+    }
+
+    fun useDataBinding(): Boolean {
+        return true
     }
 
 }
