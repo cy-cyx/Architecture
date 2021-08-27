@@ -6,4 +6,10 @@ import com.android.basemvvm.base.mvvm.BaseRepository
  * create by caiyx in 2021/8/26
  */
 class Dome1Repository : BaseRepository() {
+
+    companion object {
+        val instance by lazy { Dome1Repository() }
+    }
+
+
 }

@@ -5,9 +5,10 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.android.basemvvm.base.BaseActivity
+import com.android.basemvvm.base.BaseViewModel
 import java.lang.reflect.ParameterizedType
 
-abstract class BaseMVVMActivity<M : BaseRepository, VM : BaseViewModel<M>> : BaseActivity() {
+abstract class BaseMVVMActivity<VM : BaseViewModel> : BaseActivity() {
 
     protected var viewModel: VM? = null
 
@@ -20,7 +21,9 @@ abstract class BaseMVVMActivity<M : BaseRepository, VM : BaseViewModel<M>> : Bas
         viewModel = ViewModelProvider(
             this, ViewModelProvider.AndroidViewModelFactory
                 .getInstance(application)
-        ).get((type as ParameterizedType).actualTypeArguments[1] as Class<VM>)
+        ).get((type as ParameterizedType).actualTypeArguments[0] as Class<VM>)
+        (viewModel as? BaseMVVMViewModel<*,*>)?.setView(this)
+
         val viewDataBinding = DataBindingUtil.setContentView<ViewDataBinding>(this, getLayoutId())
         viewDataBinding.lifecycleOwner = this
         viewDataBinding.setVariable(viewModel!!.variableId(), viewModel)

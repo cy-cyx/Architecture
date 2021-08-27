@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".dome.DomeActivity" />
+        <activity android:name=".dome1.Dome1Activity" />
     </application>
 
 </manifest>

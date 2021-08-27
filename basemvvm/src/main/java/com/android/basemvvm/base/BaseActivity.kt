@@ -16,7 +16,7 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView()
-        initView()
+        initView(savedInstanceState)
         loadingDialog = ProgressDialog(this)
     }
 
@@ -26,5 +26,5 @@ abstract class BaseActivity : AppCompatActivity() {
 
     abstract fun getLayoutId(): Int
 
-    abstract fun initView()
+    abstract fun initView(savedInstanceState: Bundle?)
 }

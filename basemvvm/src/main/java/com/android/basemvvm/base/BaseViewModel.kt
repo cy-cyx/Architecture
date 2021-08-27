@@ -1,4 +1,4 @@
-package com.android.basemvvm.base.mvvm
+package com.android.basemvvm.base
 
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
@@ -9,16 +9,11 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlin.coroutines.CoroutineContext
 
-abstract class BaseViewModel<M : BaseRepository> : ViewModel(), LifecycleObserver, CoroutineScope {
+abstract class BaseViewModel : ViewModel(), LifecycleObserver,
+    CoroutineScope {
     private val job = Job()
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
-
-    var repository: M? = null
-
-    init {
-        repository = createRepository()
-    }
 
     override fun onCleared() {
         super.onCleared()
@@ -26,8 +21,6 @@ abstract class BaseViewModel<M : BaseRepository> : ViewModel(), LifecycleObserve
     }
 
     abstract fun variableId(): Int
-
-    abstract fun createRepository(): M
 
     // 通用控件
     val showLoading = MutableLiveData<Boolean>()

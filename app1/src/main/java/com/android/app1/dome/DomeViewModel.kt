@@ -4,13 +4,14 @@ import android.view.View
 import android.widget.Toast
 import androidx.databinding.library.baseAdapters.BR
 import com.android.app1.R
-import com.android.basemvvm.base.mvvm.BaseViewModel
+import com.android.basemvvm.base.BaseViewModel
+import com.android.basemvvm.base.mvvm.BaseMVVMViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-class DomeViewModel : BaseViewModel<DomeRepository>() {
+class DomeViewModel : BaseMVVMViewModel<DomeActivity, DomeRepository>() {
 
     override fun variableId(): Int = BR.viewModel
 

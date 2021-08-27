@@ -1,23 +1,22 @@
 package com.android.basemvvm.base.mvvm
 
 import android.annotation.SuppressLint
-import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.android.basemvvm.base.BaseFragment
+import com.android.basemvvm.base.BaseViewModel
 import java.lang.reflect.ParameterizedType
 
 /**
  * create by caiyx in 2021/8/26
  */
-abstract class BaseMVVMFragment<M : BaseRepository, VM : BaseViewModel<M>> : BaseFragment() {
+abstract class BaseMVVMFragment<VM : BaseViewModel> : BaseFragment() {
 
     protected var viewModel: VM? = null
 
@@ -35,9 +34,11 @@ abstract class BaseMVVMFragment<M : BaseRepository, VM : BaseViewModel<M>> : Bas
         viewModel = ViewModelProvider(
             this, ViewModelProvider.AndroidViewModelFactory
                 .getInstance(activity!!.application)
-        ).get((type as ParameterizedType).actualTypeArguments[1] as Class<VM>)
+        ).get((type as ParameterizedType).actualTypeArguments[0] as Class<VM>)
+        (viewModel as? BaseMVVMViewModel<*, *>)?.setView(this)
+
         val viewDataBinding =
-            DataBindingUtil.inflate<ViewDataBinding>(inflater, getLayoutId(), container, true)
+            DataBindingUtil.inflate<ViewDataBinding>(inflater, getLayoutId(), null, false)
         viewDataBinding.lifecycleOwner = this
         viewDataBinding.setVariable(viewModel!!.variableId(), viewModel)
 
